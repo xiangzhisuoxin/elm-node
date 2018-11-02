@@ -5,9 +5,11 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+let db = require('./mongodb/db')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
+const router = require('./routes/index')
+// import index from './routes/index'
+// const users = require('./routes/users')
 
 // error handler
 onerror(app)
@@ -33,8 +35,9 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+// app.use(index.routes(), index.allowedMethods())
+// app.use(users.routes(), users.allowedMethods())
+router(app)
 
 // error-handling
 app.on('error', (err, ctx) => {
