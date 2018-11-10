@@ -13,37 +13,46 @@ module.exports = class addressComponent extends baseComponent{
     //获取定位地址
     async guessPosition(req){
         return new Promise(async (resolve, reject) => {
-            let ip = req.headers['x-forwarded-for'] ||
-                req.connection.remoteAddress ||
-                req.socket.remoteAddress ||
-                req.connection.socket.remoteAddress;
-            const ipArr = ip.split(':');
-            ip = ipArr[ipArr.length -1];
+            let ip;
             if (process.env.NODE_ENV == 'development') {
                 ip = '180.158.102.141';
+                // ip = '192.168.0.117';
+            } else {
+                ip = req.headers['x-forwarded-for'] ||
+                    req.connection.remoteAddress ||
+                    req.socket.remoteAddress ||
+                    req.connection.socket.remoteAddress;
+                const ipArr = ip.split(':');
+                ip = ipArr[ipArr.length -1];
             }
             try{
                 let result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
-                    ip,
-                    key: this.tencentkey,
+                        params:{
+                            ip,
+                            key: this.tencentkey,
+                        },
                 })
-                if (result.status != 0) {
+                if (result.data.status != 0) {
                     result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
-                        ip,
-                        key: this.tencentkey2,
+                        params:{
+                            ip,
+                            key: this.tencentkey,
+                        },
                     })
                 }
-                if (result.status != 0) {
+                if (result.data.status != 0) {
                     result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
-                        ip,
-                        key: this.tencentkey3,
+                        params:{
+                            ip,
+                            key: this.tencentkey,
+                        },
                     })
                 }
-                if (result.status == 0) {
+                if (result.data.status == 0) {
                     const cityInfo = {
-                        lat: result.result.location.lat,
-                        lng: result.result.location.lng,
-                        city: result.result.ad_info.city,
+                        lat: result.data.result.location.lat,
+                        lng: result.data.result.location.lng,
+                        city: result.data.result.ad_info.city,
                     }
                     cityInfo.city = cityInfo.city.replace(/市$/, '');
                     resolve(cityInfo)

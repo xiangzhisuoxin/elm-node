@@ -18,7 +18,8 @@ router.get('/', async (ctx, next) => {
         req_query,
         req_querystring,
         ctx_query,
-        ctx_querystring
+        ctx_querystring,
+        ctx
     }
 })
 
