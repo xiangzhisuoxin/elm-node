@@ -3,7 +3,7 @@ let config = require('config-lite')('elm-node');
 let chalk = require('chalk');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongodbUrl,{useNewUrlParser:true});
+mongoose.connect(config.mongodbUrl,{useNewUrlParser:true,useCreateIndex: true});
 
 const db = mongoose.connection;
 
@@ -24,7 +24,7 @@ db.on('close', function() {
     console.log(
         chalk.red('数据库断开，重新连接数据库')
     );
-    mongoose.connect(config.url, {server:{auto_reconnect:true}});
+    mongoose.connect(config.mongodbUrl, {server:{auto_reconnect:true}});
 });
 
 module.exports = db;

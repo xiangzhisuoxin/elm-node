@@ -1,4 +1,5 @@
 const v1 = require('./v1')
+const v2 = require('./v2')
 const users = require('./users')
 const test = require('./test')
 const router = require('koa-router')()
@@ -23,6 +24,7 @@ router.get('/json', async (ctx, next) => {
 // module.exports = router
 module.exports = (app) => {
     app.use(v1.routes(), v1.allowedMethods())
+    app.use(v2.routes(), v2.allowedMethods())
     app.use(test.routes(), test.allowedMethods())
     app.use(users.routes(), users.allowedMethods())
     app.use(router.routes(), router.allowedMethods())

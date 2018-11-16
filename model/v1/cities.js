@@ -57,17 +57,12 @@ citySchema.statics.cityHot = async function () {
 }
 
 citySchema.statics.cityGroup = async function () {
-    let cityGroup;
-    await this.findOne((err, res) => {
-        if (err) {
-            throw err;
-        }
-        if (res) {
-            cityGroup = res.data;
-            delete cityGroup._id;
-            delete cityGroup.hotCities
-        }
-    })
+    let res = await this.findOne();
+    let cityGroup = res.data;
+
+    delete cityGroup._id;
+    delete cityGroup.hotCities
+
     return cityGroup
 }
 
