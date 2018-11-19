@@ -4,8 +4,13 @@ const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
+const logger = require('koa-logger');
+const config = require('config-lite');
+const session = require('koa-session')
+
 let db = require('./mongodb/db')
+
+app.keys = ['some secret hurr'];   /*cookie的签名*/
 
 const router = require('./routes/index')
 // import index from './routes/index'
@@ -13,6 +18,9 @@ const router = require('./routes/index')
 
 // error handler
 onerror(app)
+
+//session配置
+app.use(session(config.session, app));
 
 // middlewares
 app.use(bodyparser({

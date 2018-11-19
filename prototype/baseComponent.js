@@ -11,10 +11,10 @@ module.exports = class baseComponent {
             throw new Error('id类型错误')
         }
         try {
-            let ids = await ids.findOne()
-            ids[type]++;
-            await ids.save()
-            return ids[type]
+            let idArr = await ids.findOne()
+            idArr[type]++;
+            await idArr.save()
+            return idArr[type]
         } catch (e) {
             console.log('获取数据失败');
             throw new Error(e)

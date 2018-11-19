@@ -22,11 +22,13 @@
     "koa-logger": "^2.0.1",
     "koa-onerror": "^1.2.1",
     "koa-router": "^7.1.1",
+    "koa-session": "^5.10.0",
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
     "mongoose": "^5.3.8",
     "pinyin": "^2.8.3",
-    "pug": "^2.0.0-rc.1"
+    "pug": "^2.0.0-rc.1",
+    "time-formater": "^1.0.3"
   },
   "devDependencies": {
     "babel": "^6.23.0",
