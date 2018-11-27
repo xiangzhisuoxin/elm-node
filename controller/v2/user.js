@@ -10,35 +10,54 @@ class User extends addressComponent{
         super();
         this.login = this.login.bind(this);
         this.encryption = this.encryption.bind(this);
+        this.accounLogin = this.accounLogin.bind(this);
     }
 
     async login(ctx) {
         let params = ctx.request.body,
             cap = ctx.cookies.get('cap');
+
+        //验证验证码
         if (!cap) {
             ctx.body = {
                 status: 0,
                 msg: '验证码呢'
             };
-            return
+            return;
         }
-
-        const {username, password, captchaCode} = params;
-        if (!username || !password || !captchaCode) {
-            ctx.body = {
-                status: 0,
-                msg: '参数错误'
-            };
-            return
-        }
+        const {captchaCode} = params;
 
         if (captchaCode.toString() != cap.toString()) {
             ctx.body = {
                 status: 2,
                 msg: '验证码再看看'
-            }
+            };
             return;
         }
+
+        //根据参数的type值调用不同的接口
+        try {
+            switch (params.type) {
+                case 'account':
+                    this.accounLogin(ctx);
+                    break;
+            }
+        } catch (e) {
+
+        }
+    }
+
+    async accounLogin(ctx){
+        let params = ctx.request.body;
+        const {username, password} = params;
+        if (!username || !password ) {
+            ctx.body = {
+                status: 0,
+                msg: '参数错误'
+            };
+            return;
+        }
+
 
         let user = await userModel.findOne({username}),
             newPwd = this.encryption(password);
@@ -46,7 +65,7 @@ class User extends addressComponent{
             //用户不存在 创建用户
             const user_id = await this.getId('user_id');
             const registe_time = dtime().format('yyyy-MM-dd hh:mm');
-            const cityInfo = await this.guessPosition(ctx.req)
+            const cityInfo = await this.guessPosition(ctx.req);
 
             const newUserInfo = {username, user_id, id: user_id, city: cityInfo.city, registe_time};
             const newUser = {username, password: newPwd, user_id};
@@ -54,9 +73,9 @@ class User extends addressComponent{
             const {_user,_userInfo} = await Promise.all([
                 userModel.create(newUser),
                 userInfoModel.create(newUserInfo)
-            ])
+            ]);
 
-            ctx.session.user_id = user_id
+            ctx.session.user_id = user_id;
 
             ctx.body = {
                 status: 1,
@@ -64,15 +83,15 @@ class User extends addressComponent{
                 data:{
                     userInfo: newUserInfo
                 }
-            }
-            return
+            };
+            return;
         } else if(user.password.toString() != newPwd.toString()){
             //密码不正确
             ctx.body = {
                 status: 3,
                 msg: '密码错误'
-            }
-            return
+            };
+            return;
         } else {
             //登录成功
             const userInfo = await userInfoModel.findOne({username:user.username});
@@ -83,10 +102,9 @@ class User extends addressComponent{
                 data: {
                     userInfo
                 }
-            }
-            return
+            };
+            return;
         }
-
     }
 
     //加密密码
