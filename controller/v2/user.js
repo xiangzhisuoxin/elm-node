@@ -14,36 +14,37 @@ class User extends addressComponent{
     }
 
     async login(ctx) {
-        let params = ctx.request.body,
-            cap = ctx.cookies.get('cap');
-
-        //验证验证码
-        if (!cap) {
-            ctx.body = {
-                status: 0,
-                msg: '验证码呢'
-            };
-            return;
-        }
-        const {captchaCode} = params;
-
-        if (captchaCode.toString() != cap.toString()) {
-            ctx.body = {
-                status: 2,
-                msg: '验证码再看看'
-            };
-            return;
-        }
-
         //根据参数的type值调用不同的接口
         try {
+            let params = ctx.request.body,
+                cap = ctx.cookies.get('cap');
+
+            //验证验证码
+            if (!cap) {
+                ctx.body = {
+                    status: 0,
+                    msg: '验证码呢'
+                };
+                return;
+            }
+            const {captchaCode} = params;
+
+            if (captchaCode.toString() != cap.toString()) {
+                ctx.body = {
+                    status: 2,
+                    msg: '验证码再看看'
+                };
+                return;
+            }
+
             switch (params.type) {
                 case 'account':
-                    this.accounLogin(ctx);
+                    await this.accounLogin(ctx);
+                    return;
                     break;
             }
         } catch (e) {
-
+            console.error('登录失败', e);
         }
     }
 

@@ -25,6 +25,7 @@ module.exports = class addressComponent extends baseComponent{
                 const ipArr = ip.split(':');
                 ip = ipArr[ipArr.length -1];
             }
+
             try{
                 let result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
                         params:{
@@ -64,5 +65,26 @@ module.exports = class addressComponent extends baseComponent{
                 reject(err);
             }
         })
+    }
+
+    //搜索详细地址
+    async searchPlace(keyword, cityName){
+        try{
+            const resObj = await axios.get('http://apis.map.qq.com/ws/place/v1/search', {
+                params:{
+                    key: this.tencentkey,
+                    keyword: encodeURIComponent(keyword),
+                    boundary: 'region(' + encodeURIComponent(cityName) + ',0)',
+                    page_size: 10,
+                }
+            });
+            if (resObj.data.status == 0) {
+                return resObj.data
+            }else{
+                throw new Error('搜索位置信息失败');
+            }
+        }catch(err){
+            throw new Error(err);
+        }
     }
 }
