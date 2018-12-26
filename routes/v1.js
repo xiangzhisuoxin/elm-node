@@ -1,10 +1,13 @@
 let City = require('./../controller/v1/cities');
-const Captchas = require('./../controller/v1/captchas');
+const Food = require('./../controller/v1/food');
 const router = require('koa-router')();
 router.prefix('/v1');
 
+//城市列表
 router.get('/cities', City.getCities);
-router.post('/captchas', Captchas.getVerificationCode);
+//详细地址
 router.get('/pois', City.searchDetailPlace);
+//食物类别
+router.get('/foodType', Food.getFoodType);
 
 module.exports = router;

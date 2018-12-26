@@ -72,7 +72,6 @@ class City extends addressComponent {
             let cityInfo = await cityModel.cityGuess(cityName);
             cityId = cityInfo.id;
         }
-        ;
         let cityObj = await cityModel.getCityById(cityId);
         let cityRes = await this.searchPlace(keyword, cityObj.name);
         ctx.body = {
