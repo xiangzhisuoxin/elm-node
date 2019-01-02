@@ -40,10 +40,11 @@ class User extends addressComponent {
             switch (params.type) {
                 case 'account':
                     await this.accounLogin(ctx);
+                    return;
                     break;
             }
         } catch (e) {
-            console.error('参数错误', e);
+            console.error('登录失败', e);
         }
     }
 

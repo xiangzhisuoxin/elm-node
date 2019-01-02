@@ -6,8 +6,9 @@ class City extends addressComponent {
     constructor(){
         super()
         this.getCities = this.getCities.bind(this);
+        this.searchDetailPlace = this.searchDetailPlace.bind(this);
     }
-
+    //获取当前城市
     async getCities(ctx) {
         let type = ctx.query.type,
             cityInfo,
@@ -35,6 +36,7 @@ class City extends addressComponent {
         // ctx.body = ctx.url +'connected';
     }
 
+    //根据请求头获取城市名字
     async getCityName(req){
         let cityInfo;
 
@@ -54,6 +56,32 @@ class City extends addressComponent {
             cityName += item[0];
         })
         return cityName;
+    }
+
+    //根据城市id和关键字猜地址
+    async searchDetailPlace(ctx) {
+        let {cityId,keyword} = ctx.query;
+        if(!keyword){
+            ctx.body = {
+                status: 0,
+                msg: '关键词错误'
+            }
+        }
+        if (!cityId) {
+            let cityName = await this.getCityName(ctx.req);
+            let cityInfo = await cityModel.cityGuess(cityName);
+            cityId = cityInfo.id;
+        }
+        let cityObj = await cityModel.getCityById(cityId);
+        let cityRes = await this.searchPlace(keyword, cityObj.name);
+        ctx.body = {
+            status: 1,
+            msg: '',
+            data:{
+                cityRes
+            }
+        }
+
     }
 }
 
