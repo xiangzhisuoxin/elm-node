@@ -12,7 +12,7 @@ const foodSchema = mongoose.Schema({
     title_color: String
 })
 
-const FoodType = new mongoose.model('FoodType',foodSchema)
+const FoodType = mongoose.model('FoodTypes',foodSchema);
 
 FoodType.findOne((err,data) => {
     if (!data) {
