@@ -21,12 +21,13 @@ onerror(app)
 //统计处理错误
 app.use(async (ctx,next) => {
     try{
-        await next()
+        await next();
     }catch(err){
         ctx.response.status = err.statusCode || err.status || 500;
         ctx.response.body = {
             msg: err.message,
-            status: 0
+            status: 0,
+            url:ctx.url
         };
         // 手动释放error事件 否则error事件不会触发
         ctx.app.emit('error', err, ctx);

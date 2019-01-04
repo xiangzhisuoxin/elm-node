@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const entry = require('../../initData/entry');
 
-const foodSchema = mongoose.Schema({
+const foodSchema = new mongoose.Schema({
     id: Number,
     is_in_serving: Boolean,
     description: String,
@@ -12,14 +12,12 @@ const foodSchema = mongoose.Schema({
     title_color: String
 })
 
-const FoodType = mongoose.model('FoodTypes',foodSchema);
+const FoodType = mongoose.model('Foodtypes',foodSchema);
 
 FoodType.findOne((err,data) => {
     if (!data) {
         entry.forEach((item) => {
-            FoodType.create({
-                data:item
-            })
+            FoodType.create(item)
         })
     }
 })
