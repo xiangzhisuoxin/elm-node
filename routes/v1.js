@@ -13,6 +13,9 @@ router.get('/pois', City.searchDetailPlace);
 //食物类别
 router.get('/foodType', Food.getFoodType);
 
+//详细食物类别
+router.get('/detailFoodType', Food.getDetailFoodType);
+
 //商家列表
 router.get('/shopList', Shop.getShopList);
 module.exports = router;
