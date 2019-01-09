@@ -83,6 +83,15 @@ class City extends addressComponent {
         }
 
     }
+
+    /**
+     * 获取地址信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAddressInfo(ctx) {
+
+    }
 }
 
 module.exports = new City()

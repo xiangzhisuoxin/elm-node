@@ -18,4 +18,7 @@ router.get('/detailFoodType', Food.getDetailFoodType);
 
 //商家列表
 router.get('/shopList', Shop.getShopList);
+
+//地址信息
+router.get('/addressInfo', Shop.getShopList);
 module.exports = router;
