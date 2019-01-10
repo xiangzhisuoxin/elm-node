@@ -1,6 +1,5 @@
 const baseComponent = require('../../prototype/baseComponent');
 const FoodTypeModel = require('../../model/v1/food-type');
-const FoodDetailTypeModel = require('../../model/v1/food-detail-type');
 
 class Food extends baseComponent{
     constructor(){
@@ -8,7 +7,7 @@ class Food extends baseComponent{
         this.getFoodType = this.getFoodType.bind(this);
 
     }
-    //获取食物类别
+    //获取食物类别 (废弃)
     async getFoodType(ctx){
         try {
             const entries = await FoodTypeModel.find({}, '-_id');
@@ -22,19 +21,7 @@ class Food extends baseComponent{
         }
     }
 
-    /**
-     * 获取食品分类
-     * @param ctx 上下文
-     * @returns {Promise<void>}
-     */
-    async getDetailFoodType(ctx){
-        const detailFoodType = await FoodDetailTypeModel.find({}, '-_id');
-        ctx.body = {
-            status: 1,
-            msg: '',
-            data: detailFoodType
-        }
-    }
+
 }
 
 module.exports = new Food();
