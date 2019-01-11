@@ -26,7 +26,7 @@ const shopTypeSchema = new mongoose.Schema({
  */
 shopTypeSchema.statics.getTypeById = async function (id) {
     const type = await this.findOne({id});
-    return type.data;
+    return type;
 };
 
 /**
@@ -36,8 +36,9 @@ shopTypeSchema.statics.getTypeById = async function (id) {
  * @returns {Promise<*>}
  */
 shopTypeSchema.statics.getSubTypeById = async function (id,subId) {
-    const subType = await this.fondOne({id,sub_categories:subId});
-    return subType.data;
+    const subType = await this.findOne({id,'sub_categories.id':subId},{sub_categories:1});
+    let subItem;
+    return subType.sub_categories;
 };
 
 const shopType = mongoose.model('shop_types',shopTypeSchema);
