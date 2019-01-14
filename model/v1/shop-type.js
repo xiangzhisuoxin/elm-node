@@ -26,6 +26,9 @@ const shopTypeSchema = new mongoose.Schema({
  */
 shopTypeSchema.statics.getTypeById = async function (id) {
     const type = await this.findOne({id});
+    if (!type) {
+        throw new Error('商品总id错误')
+    }
     return type;
 };
 
@@ -37,8 +40,20 @@ shopTypeSchema.statics.getTypeById = async function (id) {
  */
 shopTypeSchema.statics.getSubTypeById = async function (id,subId) {
     const subType = await this.findOne({id,'sub_categories.id':subId},{sub_categories:1});
+    if (!subType) {
+        throw new Error('商品详细id错误');
+    }
     let subItem;
-    return subType.sub_categories;
+    subType.sub_categories.forEach((item) => {
+        if (item.id == subId) {
+            subItem = item;
+        }
+    });
+
+    if (!subItem) {
+        throw new Error('商品详细id查找失败');
+    }
+    return subItem;
 };
 
 const shopType = mongoose.model('shop_types',shopTypeSchema);

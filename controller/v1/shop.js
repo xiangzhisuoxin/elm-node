@@ -26,7 +26,7 @@ class Shop extends baseComponent{
         let filter = {};
 
         if(restaurant_category_id) {
-            if (restaurant_category_ids) {
+            if (restaurant_category_ids && (restaurant_category_ids !== restaurant_category_id)) {
                 //返回详细类的
                 const [shopType, shopSubType] = await Promise.all([
                     ShopTypeModel.getTypeById(restaurant_category_id),
@@ -37,7 +37,7 @@ class Shop extends baseComponent{
             } else {
                 //返回大类的
                 const shopType = await ShopTypeModel.getTypeById(restaurant_category_id);
-                Object.assign(filter,{category: shopType.name});
+                Object.assign(filter,{category: {$regex: shopType.name, $options: 'g'}});
             }
         } else {
             //返回最近的
