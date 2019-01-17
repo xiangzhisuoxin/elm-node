@@ -1,8 +1,8 @@
-const baseComponent = require('../../prototype/baseComponent');
+const addressComponent = require('../../prototype/addressComponent');
 const ShopTypeModel = require('../../model/v1/shop-type');
 const ShopModel = require('../../model/v1/shop');
 
-class Shop extends baseComponent{
+class Shop extends addressComponent{
     constructor(){
         super();
         this.getShopList = this.getShopList.bind(this);
@@ -75,11 +75,25 @@ class Shop extends baseComponent{
 
         const shopList = await ShopModel.find(filter, '-_id').sort(sortBy).limit(Number(limit)).skip(Number(offset));
 
+        //获得商家距离
+        if (shopList.length) {
+            let from = `${latitude},${longitude}`;
+            let to = '';
+            shopList.forEach((item, index) => {
+                let splitStr = index == shopList.length - 1 ? '' : '|';
+                to += `${item.latitude},${item.longitude}${splitStr}`;
+            });
+
+            let res = await this.getDistance(from, to);
+            shopList.map((item,index) => {
+                return Object.assign(item, res[index])
+            })
+        }
         ctx.body = {
             status: 1,
             msg: '',
             data:shopList
-        }
+        };
 
     }
 
