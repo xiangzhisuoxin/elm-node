@@ -21,4 +21,7 @@ router.get('/shopList', Shop.getShopList);
 
 //地址信息
 router.get('/addressInfo', Shop.getShopList);
+
+//根据关键词搜索商家
+router.get('/getShopsByKeyword', Shop.getShopsByKeyword);
 module.exports = router;

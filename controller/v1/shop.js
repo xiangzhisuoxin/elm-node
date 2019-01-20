@@ -7,6 +7,8 @@ class Shop extends addressComponent{
         super();
         this.getShopList = this.getShopList.bind(this);
         this.getShopType = this.getShopType.bind(this);
+        this.getShopsByKeyword = this.getShopsByKeyword.bind(this);
+        this.addDistanceInfo = this.addDistanceInfo.bind(this);
     }
     //获取商家列表
     async getShopList(ctx){
@@ -73,22 +75,10 @@ class Shop extends addressComponent{
             Object.assign(filter, {'supports.id': {$all: support_ids}});
         }
 
-        const shopList = await ShopModel.find(filter, '-_id').sort(sortBy).limit(Number(limit)).skip(Number(offset));
+        let shopList = await ShopModel.find(filter, '-_id').sort(sortBy).limit(Number(limit)).skip(Number(offset));
 
         //获得商家距离
-        if (shopList.length) {
-            let from = `${latitude},${longitude}`;
-            let to = '';
-            shopList.forEach((item, index) => {
-                let splitStr = index == shopList.length - 1 ? '' : '|';
-                to += `${item.latitude},${item.longitude}${splitStr}`;
-            });
-
-            let res = await this.getDistance(from, to);
-            shopList.map((item,index) => {
-                return Object.assign(item, res[index])
-            })
-        }
+        shopList = await this.addDistanceInfo(shopList,latitude,longitude);
         ctx.body = {
             status: 1,
             msg: '',
@@ -109,6 +99,60 @@ class Shop extends addressComponent{
             msg: '',
             data: detailFoodType
         }
+    }
+
+    /**
+     * 根据关键词搜索商家
+     * @param ctx 上下文
+     * @returns {Promise<void>}
+     */
+    async getShopsByKeyword(ctx) {
+        let {
+            latitude,
+            longitude,
+            offset = 0,
+            limit = 20,
+            keyword
+        } = ctx.query;
+        if (!keyword) {
+            ctx.body = {
+                status: 0,
+                msg: '关键词错误'
+            }
+        }
+        let filter = {
+            'name':{$regex: keyword, $options: 'g'},
+            'location': {$near: [longitude, latitude]},
+        }
+        let arrResult = await ShopModel.find(filter, '-_id').limit(Number(limit)).skip(Number(offset));
+        arrResult = await this.addDistanceInfo(arrResult,latitude,longitude);
+        ctx.body = {
+            status: 1,
+            msg: '',
+            data: arrResult
+        }
+    }
+
+    /**
+     * 调用百度api 给查询结果增加距离信息
+     * @param shopList {Array} 查询结果
+     * @returns {Promise<*>}
+     */
+    async addDistanceInfo(shopList,latitude,longitude){
+        if (shopList.length) {
+            let from = `${latitude},${longitude}`;
+            let to = '';
+            shopList.forEach((item, index) => {
+                let splitStr = index == shopList.length - 1 ? '' : '|';
+                to += `${item.latitude},${item.longitude}${splitStr}`;
+            });
+
+            let res = await this.getDistance(from, to);
+            shopList.map((item,index) => {
+                return Object.assign(item, res[index])
+            })
+        }
+        return shopList;
     }
 }
 
