@@ -1,6 +1,7 @@
 const addressComponent = require('../../prototype/addressComponent');
 const ShopTypeModel = require('../../model/v1/shop-type');
 const ShopModel = require('../../model/v1/shop');
+const foodModel = require('../../model/v1/food');
 
 class Shop extends addressComponent{
     constructor(){
@@ -126,6 +127,12 @@ class Shop extends addressComponent{
         }
         let arrResult = await ShopModel.find(filter, '-_id').limit(Number(limit)).skip(Number(offset));
         arrResult = await this.addDistanceInfo(arrResult,latitude,longitude);
+
+        for (let i = 0; i < arrResult.length; i++) {
+            let hotFood = await foodModel.getHotFoodByShopId(arrResult[i].id);
+            Object.assign(arrResult[i], {hotFood})
+        }
+
         ctx.body = {
             status: 1,
             msg: '',

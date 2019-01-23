@@ -21,7 +21,6 @@ class Food extends baseComponent{
         }
     }
 
-
 }
 
 module.exports = new Food();
