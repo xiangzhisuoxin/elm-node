@@ -128,10 +128,37 @@ class Shop extends addressComponent{
         let arrResult = await ShopModel.find(filter, '-_id').limit(Number(limit)).skip(Number(offset));
         arrResult = await this.addDistanceInfo(arrResult,latitude,longitude);
 
-        for (let i = 0; i < arrResult.length; i++) {
-            let hotFood = await foodModel.getHotFoodByShopId(arrResult[i].id);
-            Object.assign(arrResult[i], {hotFood})
-        }
+        let arrId  = arrResult.map((item) => {
+            return item.id;
+        });
+
+        let arrFood = await foodModel.getHotFoodByShopIds(arrId);
+
+        arrResult.map((item) => {
+            let hotFood = [];
+            arrFood.map((item2) => {
+                if (item2.restaurant_id == item.id) {
+                    hotFood.push(item2)
+                }
+            })
+            return Object.assign(item, {hotFood: [...hotFood]})
+            // item.hotFood = hotFood;
+        })
+
+        /*arrResult.map((item, index) => {
+            return Object.assign(item, {ind: index})
+        });*/
+
+        /*for (let i = 0; i < arrResult.length; i++) {
+            let hotFood = [];
+            for (let j = 0; j < arrFood.length; j++) {
+                let item2 = arrFood[j];
+                if (item2.restaurant_id == arrResult[i].id) {
+                    hotFood.push(item2)
+                }
+            }
+            arrResult[i].hotFood = hotFood;
+        }*/
 
         ctx.body = {
             status: 1,

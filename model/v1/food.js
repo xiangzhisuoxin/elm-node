@@ -68,6 +68,18 @@ foodSchema.statics.getHotFoodByShopId = async function (id) {
     return food;
 };
 
+foodSchema.statics.getHotFoodByShopIds = async function (arrId) {
+    let food = await this.find({restaurant_id: {$in: arrId},satisfy_rate:{$gte:80}}, {
+        name: 1,
+        rating :1,
+        restaurant_id : 1,
+        month_sales: 1,
+        specfoods: 1,
+        _id: 0
+    });
+    return food;
+};
+
 const Food = mongoose.model('Food', foodSchema);
 const Menu = mongoose.model('Menu', menuSchema);
 

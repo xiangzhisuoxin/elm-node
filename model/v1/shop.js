@@ -18,6 +18,7 @@ const shopSchema = new mongoose.Schema({
     description: { type: String, default: "" },
     order_lead_time: { type: String, default: "" },
     distance: { type: String, default: "" },
+    hotFood: {type: Array, default: []},
     location:{type:[Number],index: '2d'},
     float_delivery_fee: { type: Number, default: 0 },
     float_minimum_order_amount: { type: Number, default: 0 },
