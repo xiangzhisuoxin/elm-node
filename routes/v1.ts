@@ -1,7 +1,9 @@
-let City = require('./../controller/v1/cities');
-const Food = require('./../controller/v1/food');
-const Shop = require('./../controller/v1/shop');
-const router = require('koa-router')();
+import * as Router from 'koa-router';
+import City from './../controller/v1/cities';
+import Food from './../controller/v1/food';
+import Shop from './../controller/v1/shop';
+
+const router = new Router();
 router.prefix('/v1');
 
 //城市列表
@@ -24,4 +26,4 @@ router.get('/addressInfo', Shop.getShopList);
 
 //根据关键词搜索商家
 router.get('/getShopsByKeyword', Shop.getShopsByKeyword);
-module.exports = router;
+export default router;

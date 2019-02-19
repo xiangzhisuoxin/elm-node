@@ -1,7 +1,7 @@
-const addressComponent = require('../../prototype/addressComponent');
-const ShopTypeModel = require('../../model/v1/shop-type');
-const ShopModel = require('../../model/v1/shop');
-const foodModel = require('../../model/v1/food');
+import addressComponent from '../../prototype/addressComponent';
+import ShopTypeModel from '../../model/v1/shop-type';
+import ShopModel from '../../model/v1/shop';
+import foodModel from '../../model/v1/food';
 
 class Shop extends addressComponent{
     constructor(){
@@ -133,7 +133,6 @@ class Shop extends addressComponent{
         });
 
         let arrFood = await foodModel.getHotFoodByShopIds(arrId);
-
         arrResult.map((item) => {
             let hotFood = [];
             arrFood.map((item2) => {
@@ -190,4 +189,4 @@ class Shop extends addressComponent{
     }
 }
 
-module.exports = new Shop();
+export default new Shop();

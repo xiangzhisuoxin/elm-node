@@ -1,9 +1,8 @@
-const crypto = require('crypto');
-const dtime = require('time-formater');
-
-const addressComponent = require('../../prototype/addressComponent');
-const userModel = require('./../../model/v2/user');
-const userInfoModel = require('../../model/v2/userinfo');
+import addressComponent from '../../prototype/addressComponent';
+import * as crypto from 'crypto';
+// import * as dtime from 'time-formater';
+import userModel from './../../model/v2/user';
+import userInfoModel from '../../model/v2/userinfo';
 
 class User extends addressComponent {
     constructor() {
@@ -27,7 +26,9 @@ class User extends addressComponent {
                 };
                 return;
             }
-            const {captchaCode} = params;
+            const {
+                captchaCode
+            } = params;
 
             if (captchaCode.toString() != cap.toString()) {
                 ctx.body = {
@@ -50,7 +51,10 @@ class User extends addressComponent {
 
     async accounLogin(ctx) {
         let params = ctx.request.body;
-        const {username, password} = params;
+        const {
+            username,
+            password
+        } = params;
         if (!username || !password) {
             ctx.body = {
                 status: 0,
@@ -60,13 +64,15 @@ class User extends addressComponent {
         }
 
 
-        let user = await userModel.findOne({username}),
-            newPwd = this.encryption(password);
+        let user = await userModel.findOne({
+            username
+        });
+        let newPwd = this.encryption(password);
         if (!user) {
             //用户不存在 创建用户
             const user_id = await this.getId('user_id');
 
-            Date.prototype.Format = function(fmt) { //author: meizz
+            (Date as any).prototype.Format = function (fmt) { //author: meizz
                 var o = {
                     "M+": this.getMonth() + 1, //月份
                     "d+": this.getDate(), //日
@@ -81,13 +87,23 @@ class User extends addressComponent {
                 return fmt;
             }
 
-            let registe_time = new Date().Format('yyyy-MM-dd hh:mm:ss');
+            let registe_time = (new Date() as any).Format('yyyy-MM-dd hh:mm:ss');
             const cityInfo = await this.guessPosition(ctx.req);
 
-            const newUserInfo = {username, user_id, id: user_id, city: cityInfo.city, registe_time};
-            const newUser = {username, password: newPwd, user_id};
+            const newUserInfo = {
+                username,
+                user_id,
+                id: user_id,
+                city: cityInfo.city,
+                registe_time
+            };
+            const newUser = {
+                username,
+                password: newPwd,
+                user_id
+            };
 
-            const {_user, _userInfo} = await Promise.all([
+            await Promise.all([
                 userModel.create(newUser),
                 userInfoModel.create(newUserInfo)
             ]);
@@ -111,7 +127,9 @@ class User extends addressComponent {
             return;
         } else {
             //登录成功
-            const userInfo = await userInfoModel.findOne({username: user.username});
+            const userInfo = await userInfoModel.findOne({
+                username: user.username
+            });
             ctx.session.user_id = user.user_id;
             ctx.body = {
                 status: 1,
@@ -137,4 +155,4 @@ class User extends addressComponent {
 }
 
 
-module.exports = new User();
+export default new User();

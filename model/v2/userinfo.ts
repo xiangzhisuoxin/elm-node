@@ -1,4 +1,31 @@
-const mongoose = require('mongoose')
+import * as mongoose from 'mongoose';
+interface IUserInfoSchema extends mongoose.Document{
+    avatar?: string,
+    balance?: number,
+    brand_member_new?: number,
+    current_address_id?: number,
+    current_invoice_id?: number,
+    delivery_card_expire_days?: number,
+    email?: string;
+    gift_amount?: number,
+    city?: string,
+    registe_time?: string,
+    id?: number,
+    user_id?: number,
+    is_active?: number,
+    is_email_valid?: boolean,
+    is_mobile_valid?: boolean,
+    mobile?: string,
+    point?: number,
+    username?: string,
+    column_desc?: {
+        game_desc?: string,
+        game_image_hash?: string,
+        game_is_show?: number,
+        game_link?: string,
+        gift_mall_desc?: string,
+    }
+}
 const userInfoSchema = new mongoose.Schema({
     avatar: {type: String, default: 'default.jpg'},
     balance: {type: Number, default: 0},
@@ -26,7 +53,7 @@ const userInfoSchema = new mongoose.Schema({
         gift_mall_desc: {type: String, default: '0元好物在这里'},
     }
 })
-userInfoSchema.index({id:1})
-const UserInfo = mongoose.model('UserInfo', userInfoSchema)
+userInfoSchema.index({id:1});
+const UserInfo = mongoose.model<IUserInfoSchema>('UserInfo', userInfoSchema)
 
-module.exports = UserInfo;
+export default UserInfo;

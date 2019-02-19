@@ -1,7 +1,17 @@
-let axios = require('axios')
-let baseComponent = require('./baseComponent')
+import axios from 'axios';
+import baseComponent from './baseComponent';
+interface IGuseePosition {
+    lat: string;
+    lng: string;
+    city: string;
+}
+export default class addressComponent extends baseComponent {
+    tencentkey:string;
+    tencentkey2:string;
+    tencentkey3:string;
+    baidukey:string;
+    baidukey2:string;
 
-module.exports = class addressComponent extends baseComponent {
     constructor() {
         super();
         this.tencentkey = 'RLHBZ-WMPRP-Q3JDS-V2IQA-JNRFH-EJBHL';
@@ -13,7 +23,7 @@ module.exports = class addressComponent extends baseComponent {
 
     //获取定位地址
     async guessPosition(req) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise<IGuseePosition>(async (resolve, reject) => {
             let ip;
             if (process.env.NODE_ENV == 'development') {
                 ip = '180.158.102.141';

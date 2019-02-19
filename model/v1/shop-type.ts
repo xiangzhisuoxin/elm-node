@@ -1,7 +1,26 @@
-const mongoose = require('mongoose');
-const category = require('../../initData/category');
-
-const shopTypeSchema = new mongoose.Schema({
+import category from '../../initData/category';
+import { Document, Schema, model, Model } from 'mongoose';
+interface ISubCategorire {
+    count?: number,
+    id?: number,
+    image_url?: string;
+    level?: number,
+    name?: string,
+}
+interface IShopType extends Document,ISubCategorire{
+    count?: number,
+    id?: number,
+    ids?: [],
+    image_url?: string,
+    level?: number,
+    name?: string,
+    sub_categories?:ISubCategorire;
+}
+interface IMShopType extends Model<IShopType>{
+    getTypeById?(id:number):Promise<IShopType>;
+    getSubTypeById?(id:number,subId:number):Promise<ISubCategorire>;
+}
+const shopTypeSchema = new Schema({
     count: Number,
     id: Number,
     ids: [],
@@ -24,7 +43,7 @@ const shopTypeSchema = new mongoose.Schema({
  * @param id {Number} 商品id
  * @returns {Promise<*>}
  */
-shopTypeSchema.statics.getTypeById = async function (id) {
+shopTypeSchema.statics.getTypeById = async function (id:number):Promise<IShopType> {
     const type = await this.findOne({id});
     if (!type) {
         throw new Error('商品总id错误')
@@ -38,7 +57,7 @@ shopTypeSchema.statics.getTypeById = async function (id) {
  * @param subId {Number} 商品id（详细）
  * @returns {Promise<*>}
  */
-shopTypeSchema.statics.getSubTypeById = async function (id,subId) {
+shopTypeSchema.statics.getSubTypeById = async function (id:number,subId:number):Promise<ISubCategorire> {
     const subType = await this.findOne({id,'sub_categories.id':subId},{sub_categories:1});
     if (!subType) {
         throw new Error('商品详细id错误');
@@ -56,7 +75,7 @@ shopTypeSchema.statics.getSubTypeById = async function (id,subId) {
     return subItem;
 };
 
-const shopType = mongoose.model('shop_types',shopTypeSchema);
+const shopType:IMShopType = model<IShopType>('shop_types',shopTypeSchema);
 
 shopType.findOne((err,data) => {
     if (!data) {
@@ -66,4 +85,4 @@ shopType.findOne((err,data) => {
     }
 });
 
-module.exports = shopType;
+export default shopType;

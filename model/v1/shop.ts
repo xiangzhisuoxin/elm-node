@@ -1,5 +1,67 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 
+interface IShop extends mongoose.Document{
+    activities: [{
+        description: string,
+        icon_color: string,
+        icon_name: string,
+        id: number,
+        name: string,
+    }],
+    address: string,
+    delivery_mode: {
+        color: string,
+        id: number,
+        is_solid: boolean,
+        text: string
+    },
+    description: string,
+    order_lead_time: string,
+    distance: string,
+    hotFood: Array<any>,
+    location:Array<number>,
+    float_delivery_fee: number,
+    float_minimum_order_amount: number,
+    id: number,
+    category: string,
+    identification: {
+        company_name: string,
+        identificate_agency: string,
+        identificate_date: Date,
+        legal_person: string,
+        licenses_date: string,
+        licenses_number: string,
+        licenses_scope: string,
+        operation_period: string,
+        registered_address: string,
+        registered_number: string,
+    },
+    image_path: string,
+    is_premium: boolean,
+    is_new: boolean,
+    latitude: number,
+    longitude: number,
+    license: {
+        business_license_image: string,
+        catering_service_license_image: string,
+    },
+    name: string,
+    opening_hours: Array<any>,
+    phone: string,
+    piecewise_agent_fee: string,
+    promotion_info: string,
+    rating: never,
+    rating_count: number,
+    recent_order_num: number,
+    status: number,
+    supports: [{
+        description: string,
+        icon_color: string,
+        icon_name: string,
+        id: number,
+        name: string
+    }],
+}
 const shopSchema = new mongoose.Schema({
     activities: [{
         description: String,
@@ -73,6 +135,6 @@ const shopSchema = new mongoose.Schema({
 
 shopSchema.index({ id: 1 }); //primary_key 主键
 
-const Shop = mongoose.model('Shop', shopSchema);
+const Shop = mongoose.model<IShop>('Shop', shopSchema);
 
-module.exports = Shop;
+export default Shop;

@@ -1,4 +1,18 @@
-const mongoose = require('mongoose')
+import * as mongoose from 'mongoose';
+interface IIds extends mongoose.Document{
+    restaurant_id: number,
+    food_id: number,
+    order_id: number,
+    user_id: number,
+    address_id: number,
+    cart_id: number,
+    img_id: number,
+    category_id: number,
+    item_id: number,
+    sku_id: number,
+    admin_id: number,
+    statis_id: number,
+}
 
 const idsSchema = new mongoose.Schema({
     restaurant_id: Number,
@@ -15,7 +29,7 @@ const idsSchema = new mongoose.Schema({
     statis_id: Number,
 })
 
-const ids = mongoose.model('ids', idsSchema);
+const ids = mongoose.model<IIds>('ids', idsSchema);
 
 ids.findOne((err, data) => {
     if (!data) {
@@ -37,4 +51,4 @@ ids.findOne((err, data) => {
     }
 })
 
-module.exports = ids;
+export default ids;

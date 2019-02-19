@@ -1,5 +1,5 @@
 module.exports = {
-    port:8002,
+    port:8003,
     session: {
         key: 'deng', /** 默认 */
         maxAge: 10000,  /*  cookie的过期时间        【需要修改】  */

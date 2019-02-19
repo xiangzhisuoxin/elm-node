@@ -1,6 +1,6 @@
-const baseComponent = require('../../prototype/baseComponent');
-const FoodTypeModel = require('../../model/v1/food-type');
-
+import baseComponent from '../../prototype/baseComponent';
+import FoodTypeModel from '../../model/v1/food-type';
+import {RouterContext} from 'koa-router'
 class Food extends baseComponent{
     constructor(){
         super();
@@ -8,7 +8,7 @@ class Food extends baseComponent{
 
     }
     //获取食物类别 (废弃)
-    async getFoodType(ctx){
+    async getFoodType(ctx:RouterContext){
         try {
             const entries = await FoodTypeModel.find({}, '-_id');
             ctx.body = {
@@ -17,10 +17,10 @@ class Food extends baseComponent{
                 data:entries
             }
         } catch (e) {
-            console.err('获取食品分类失败', e);
+            console.log('获取食品分类失败', e);
         }
     }
 
 }
 
-module.exports = new Food();
+export default new Food();

@@ -1,5 +1,68 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import {Schema, Model, Document, model} from 'mongoose';
+interface IFood extends Document{
+    rating?: number,
+    is_featured?: number,
+    restaurant_id?: number,
+    category_id?: number,
+    pinyin_name?: string,
+    display_times?: Array<any>;
+    attrs?: Array<any>,
+    description?: string,
+    month_sales?: number,
+    rating_count?: number,
+    tips?: string,
+    image_path?: string,
+    specifications?: Schema.Types.Mixed;
+    server_utc?: object,
+    is_essential?: boolean,
+    attributes?: Array<any>,
+    item_id?: number,
+    limitation?: Schema.Types.Mixed,
+    name?: string,
+    satisfy_count?: number,
+    activity?: Schema.Types.Mixed,
+    satisfy_rate?: number,
+    specfoods?: [{
+        original_price?: number,
+        sku_id?: number,
+        name?: string,
+        pinyin_name?: string,
+        restaurant_id?: number,
+        food_id?: number,
+        packing_fee?: number,
+        recent_rating?: number,
+        promotion_stock?: number,
+        price?: number,
+        sold_out?: boolean,
+        recent_popularity?: number,
+        is_essential?: boolean,
+        item_id?: number,
+        checkout_mode?: number,
+        stock?: number,
+        specs_name?: string,
+        specs?: [
+            {
+                name?: string,
+                value?: string
+            }
+            ]
+    }]
+}
+
+interface IMenu extends Document {
+    description?: string,
+    is_selected?: boolean,
+    icon_url?: string,
+    name?: string,
+    id?:  number,
+    restaurant_id?: number,
+    type?: number,
+    foods?: IFood
+}
+interface IMFood extends Model<IFood>{
+    getHotFoodByShopId?(id:number):Promise<Array<IFood>>;
+    getHotFoodByShopIds?(arrId:Array<number>):Promise<Array<IFood>>;
+}
 const foodSchema = new Schema({
     rating: {type: Number, default: 0},
     is_featured: {type: Number, default: 0},
@@ -63,12 +126,12 @@ const menuSchema = new Schema({
 foodSchema.index({item_id: 1});
 menuSchema.index({id: 1});
 
-foodSchema.statics.getHotFoodByShopId = async function (id) {
+foodSchema.statics.getHotFoodByShopId = async function (id:number):Promise<Array<IFood>> {
     let food = await this.find({restaurant_id: id,satisfy_rate:{$gte:80}}, '-_id');
     return food;
 };
 
-foodSchema.statics.getHotFoodByShopIds = async function (arrId) {
+foodSchema.statics.getHotFoodByShopIds = async function (arrId:Array<number>):Promise<Array<IFood>> {
     let food = await this.find({restaurant_id: {$in: arrId},satisfy_rate:{$gte:80}}, {
         name: 1,
         rating :1,
@@ -80,8 +143,8 @@ foodSchema.statics.getHotFoodByShopIds = async function (arrId) {
     return food;
 };
 
-const Food = mongoose.model('Food', foodSchema);
-const Menu = mongoose.model('Menu', menuSchema);
+const Food:IMFood = model<IFood>('Food', foodSchema);
+const Menu = model<IMenu>('Menu', menuSchema);
 
 // module.exports = {Food,Menu};
-module.exports = Food;
+export default Food;

@@ -4,24 +4,28 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('demo:server');
-var http = require('http');
-var config = require('config-lite')('elm-node')
-var chalk = require('chalk');
+import app from '../app';
+import * as http from 'http';
+import * as dbg from 'debug';
+import * as configLite from 'config-lite';
+import * as chalk from 'chalk';
+
+let debug = dbg('demo:server');
+let config = configLite(__dirname);
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || config.port || '8002');
+let port = normalizePort(process.env.PORT || config.port || '8002');
+// ????
 // app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app.callback());
+let server = http.createServer(app.callback());
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -29,7 +33,7 @@ var server = http.createServer(app.callback());
 
 server.listen(port, () => {
     console.log(
-        chalk.green(`成功监听端口：${config.port}`)
+        (chalk as any).green(`成功监听端口：${config.port}`)
     )
 });
 server.on('error', onError);
@@ -40,7 +44,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -64,7 +68,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -88,8 +92,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);

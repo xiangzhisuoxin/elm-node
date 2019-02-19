@@ -1,6 +1,14 @@
-let mongoose = require('mongoose');
-let cityData = require('../../initData/cities');
-
+import * as mongoose from 'mongoose';
+import cityData from '../../initData/cities';
+interface ICity extends mongoose.Document{
+    data: object;
+}
+interface IMCity extends mongoose.Model<ICity>{
+    cityGuess?(name:string):{id:any};
+    cityGroup?():object;
+    cityHot?():object;
+    getCityById?(id:number):{name:string};
+}
 const citySchema = new mongoose.Schema({
     data:{}
 })
@@ -24,16 +32,21 @@ citySchema.statics.cityGuess = async function (name) {
             }
         })
     })*/
-    const city = await this.findOne();
-    Object.entries(city.data).forEach(item => {
-        if(item[0] == firstWord){
-            item[1].forEach(cityItem => {
-                if (cityItem.pinyin == name) {
-                    info = cityItem
-                }
-            })
-        }
-    })
+    try {
+        const city = await this.findOne();
+        Object.entries(city.data).forEach(item => {
+            if(item[0] == firstWord){
+                (item[1] as any).forEach(cityItem => {
+                    if (cityItem.pinyin == name) {
+                        info = cityItem
+                    }
+                })
+            }
+        })
+    } catch (e) {
+        throw new Error('???')
+    }
+
     if (info) {
         console.log(info);
         return info;
@@ -72,7 +85,7 @@ citySchema.statics.getCityById = async function(id){
             const city = await this.findOne();
             Object.entries(city.data).forEach(item => {
                 if(item[0] !== '_id' && item[0] !== 'hotCities'){
-                    item[1].forEach(cityItem => {
+                    (item[1] as any).forEach(cityItem => {
                         if (cityItem.id == id) {
                             resolve(cityItem)
                         }
@@ -100,7 +113,7 @@ citySchema.statics.getCityById = async function(id){
 
 }
 
-const Cities = mongoose.model('Cities', citySchema);
+const Cities: IMCity = mongoose.model<ICity>('Cities', citySchema);
 
 Cities.findOne((err, data) => {
     if (!data) {
@@ -108,6 +121,5 @@ Cities.findOne((err, data) => {
             data: cityData
         })
     }
-})
-
-module.exports = Cities
+});
+export default Cities;

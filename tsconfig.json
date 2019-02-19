@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "lib": ["es2016"],
+    "baseUrl": "."/*,
+    "paths": {
+      "*": [
+        "node_modules",
+        "src"
+      ]
+    }*/
+  },
+  "include": [
+    "**/*",
+    "declare.d.ts"   // declaration file path
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

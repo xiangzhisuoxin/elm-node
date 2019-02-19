@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     {
         count: 0,
         ids: [

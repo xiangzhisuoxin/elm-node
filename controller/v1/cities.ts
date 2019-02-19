@@ -1,6 +1,8 @@
-const addressComponent = require('../../prototype/addressComponent')
-const pinyin = require('pinyin')
-let cityModel = require('../../model/v1/cities')
+// const pinyin = require('pinyin')
+
+import addressComponent from '../../prototype/addressComponent';
+import cityModel from '../../model/v1/cities';
+import * as pinyin from 'pinyin';
 
 class City extends addressComponent {
     constructor(){
@@ -94,4 +96,4 @@ class City extends addressComponent {
     }
 }
 
-module.exports = new City()
+export default new City()
