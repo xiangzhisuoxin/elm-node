@@ -6,7 +6,7 @@ import * as logger from "koa-logger";
 import * as configLite from 'config-lite';
 import * as session from 'koa-session';
 import router from './routes/index'
-require("mongodb/db");
+require("./mongodb/db");
 
 
 const app = new Koa();

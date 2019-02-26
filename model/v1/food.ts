@@ -63,6 +63,10 @@ interface IMFood extends Model<IFood>{
     getHotFoodByShopId?(id:number):Promise<Array<IFood>>;
     getHotFoodByShopIds?(arrId:Array<number>):Promise<Array<IFood>>;
 }
+
+interface IMMenu extends Model<IMenu>{
+    getMenuByShopId?(id:number):Promise<Array<IMenu>>;
+}
 const foodSchema = new Schema({
     rating: {type: Number, default: 0},
     is_featured: {type: Number, default: 0},
@@ -143,8 +147,28 @@ foodSchema.statics.getHotFoodByShopIds = async function (arrId:Array<number>):Pr
     return food;
 };
 
-const Food:IMFood = model<IFood>('Food', foodSchema);
-const Menu = model<IMenu>('Menu', menuSchema);
+menuSchema.statics.getMenuByShopId = async function(restaurant_id:number):Promise<Array<IMenu>>{
+    let res = await this.find({restaurant_id,"foods.0":{$exists: true}} ,{
+        name:1,
+        description:1,
+        restaurant_id:1,
+        "foods":1,
+        "foods.name":1,
+        "foods.image_path":1,
+        "foods.month_sales":1,
+        "foods.description":1,
+        "foods.rating":1,
+        "foods.rating_count":1,
+        "foods.activity":1,
+        "foods.specfoods":1,
+        "foods.specifications":1,
+        "foods.attributes":1
+    })
+    return res;
+}
+
+const FoodModel:IMFood = model<IFood>('Food', foodSchema);
+const MenuModel:IMMenu = model<IMenu>('Menu', menuSchema);
 
 // module.exports = {Food,Menu};
-export default Food;
+export {FoodModel,MenuModel}

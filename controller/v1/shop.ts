@@ -1,7 +1,8 @@
 import addressComponent from '../../prototype/addressComponent';
 import ShopTypeModel from '../../model/v1/shop-type';
 import ShopModel from '../../model/v1/shop';
-import foodModel from '../../model/v1/food';
+import {FoodModel} from '../../model/v1/food';
+import { RouterContext } from 'koa-router';
 
 class Shop extends addressComponent{
     constructor(){
@@ -12,7 +13,7 @@ class Shop extends addressComponent{
         this.addDistanceInfo = this.addDistanceInfo.bind(this);
     }
     //获取商家列表
-    async getShopList(ctx){
+    getShopList = async (ctx) => {
         let {
             latitude,
             longitude,
@@ -93,7 +94,7 @@ class Shop extends addressComponent{
      * @param ctx 上下文
      * @returns {Promise<void>}
      */
-    async getShopType(ctx){
+    getShopType = async (ctx)=>{
         const detailFoodType = await ShopTypeModel.find({}, '-_id');
         ctx.body = {
             status: 1,
@@ -107,7 +108,7 @@ class Shop extends addressComponent{
      * @param ctx 上下文
      * @returns {Promise<void>}
      */
-    async getShopsByKeyword(ctx) {
+    getShopsByKeyword=async (ctx) =>{
         let {
             latitude,
             longitude,
@@ -132,7 +133,7 @@ class Shop extends addressComponent{
             return item.id;
         });
 
-        let arrFood = await foodModel.getHotFoodByShopIds(arrId);
+        let arrFood = await FoodModel.getHotFoodByShopIds(arrId);
         arrResult.map((item) => {
             let hotFood = [];
             arrFood.map((item2) => {
@@ -164,6 +165,29 @@ class Shop extends addressComponent{
             msg: '',
             data: arrResult
         }
+    
+    
+    }
+    /**
+     * 根据商家id获取商家信息
+     * @param ctx 
+     */
+    getShopById = async (ctx:RouterContext) => {
+        let {
+            resId,
+            latitude,
+            longitude,
+        } = ctx.query;
+        let result = await ShopModel.findOne({id:resId});
+        let resArr = [result]
+        let data = await this.addDistanceInfo(resArr,latitude,longitude)
+        if(result){
+            ctx.body={
+                status:1,
+                msg:'',
+                data:data
+            }
+        }
     }
 
     /**
@@ -171,7 +195,7 @@ class Shop extends addressComponent{
      * @param shopList {Array} 查询结果
      * @returns {Promise<*>}
      */
-    async addDistanceInfo(shopList,latitude,longitude){
+    addDistanceInfo = async (shopList: Array<any>,latitude:number,longitude:number): Promise<any> =>{
         if (shopList.length) {
             let from = `${latitude},${longitude}`;
             let to = '';
@@ -187,6 +211,8 @@ class Shop extends addressComponent{
         }
         return shopList;
     }
+
+
 }
 
 export default new Shop();
