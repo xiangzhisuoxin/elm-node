@@ -154,6 +154,7 @@ menuSchema.statics.getMenuByShopId = async function(restaurant_id:number):Promis
         restaurant_id:1,
         "foods":1,
         "foods.name":1,
+        "foods.item_id":1,
         "foods.image_path":1,
         "foods.month_sales":1,
         "foods.description":1,
