@@ -1,4 +1,5 @@
 import {Schema, Model, Document, model} from 'mongoose';
+
 interface IFood extends Document{
     rating?: number,
     is_featured?: number,

@@ -6,11 +6,15 @@ import * as logger from "koa-logger";
 import * as configLite from 'config-lite';
 import * as session from 'koa-session';
 import router from './routes/index'
+import {initGraphQL} from './graphqlSchema'
 require("./mongodb/db");
 
 
 const app = new Koa();
 const config = configLite(__dirname);
+
+//初始化graphql服务
+initGraphQL(app);
 
 app.keys = ['some secret hurr'];   /*cookie的签名*/
 
@@ -20,6 +24,9 @@ app.keys = ['some secret hurr'];   /*cookie的签名*/
 
 // error handler
 onerror(app)
+
+
+
 //统计处理错误
 app.use(async (ctx,next) => {
     try{
