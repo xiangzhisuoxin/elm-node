@@ -1,7 +1,7 @@
 import v1 from './v1';
-// import v2 from './v2';
-// import users from './users';
-// import test from './test';
+import v2 from './v2';
+import users from './users';
+import test from './test';
 import * as Router from 'koa-router';
 
 const router = new Router();
@@ -26,9 +26,9 @@ router.get('/json', async (ctx, next) => {
 // module.exports = router
 export default (app) => {
     app.use(v1.routes(), v1.allowedMethods())
-    // app.use(v2.routes(), v2.allowedMethods())
-    // app.use(test.routes(), test.allowedMethods())
-    // app.use(users.routes(), users.allowedMethods())
+    app.use(v2.routes(), v2.allowedMethods())
+    app.use(test.routes(), test.allowedMethods())
+    app.use(users.routes(), users.allowedMethods())
     app.use(router.routes(), router.allowedMethods());
 }
 /*module.exports = (app) => {

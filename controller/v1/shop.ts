@@ -196,18 +196,22 @@ class Shop extends addressComponent{
      * @returns {Promise<*>}
      */
     addDistanceInfo = async (shopList: Array<any>,latitude:number,longitude:number): Promise<any> =>{
-        if (shopList.length) {
-            let from = `${latitude},${longitude}`;
-            let to = '';
-            shopList.forEach((item, index) => {
-                let splitStr = index == shopList.length - 1 ? '' : '|';
-                to += `${item.latitude},${item.longitude}${splitStr}`;
-            });
-
-            let res = await this.getDistance(from, to);
-            shopList.map((item,index) => {
-                return Object.assign(item, res[index])
-            })
+        try {
+          if (shopList.length) {
+              let from = `${latitude},${longitude}`;
+              let to = '';
+              shopList.forEach((item, index) => {
+                  let splitStr = index == shopList.length - 1 ? '' : '|';
+                  to += `${item.latitude},${item.longitude}${splitStr}`;
+              });
+  
+              let res = await this.getDistance(from, to);
+              shopList.map((item,index) => {
+                  return Object.assign(item, res[index])
+              })
+          }
+        } catch (error) {
+          console.log('超次数了');
         }
         return shopList;
     }

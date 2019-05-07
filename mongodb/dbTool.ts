@@ -101,7 +101,7 @@ class db{
     return new Promise((resolve, reject) => {
       this.connect().then((db:Db) => {
         //let result=db.collection(collectionName).find(json);
-        let result = db.collection(collectionName).find(json1, { fields: attr }).skip(slipNum).limit(pageSize).sort(sortJson);
+        let result = db.collection(collectionName).find(json1, attr).skip(slipNum).limit(pageSize).sort(sortJson);
         result.toArray(function (err, docs) {
           if (err) {
             reject(err);

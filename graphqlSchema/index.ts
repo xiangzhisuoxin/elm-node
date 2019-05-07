@@ -1,15 +1,27 @@
 import {ApolloServer} from 'apollo-server-koa';
-import { order } from './defs/orderDef';
 import Koa from 'koa';
 import {GraphQLObjectType, GraphQLSchema} from 'graphql';
+import { order, orderMutation } from './schema/order';
+import { userinfo } from './schema/userinfo';
+import { discount } from './schema/discount';
+import { address, addressMutation } from './schema/address';
 
 //将所有的schema挂载在根schema 名称跟属性明一致最好
-const fields={};
-Object.assign(fields,order);
-const rootSchema=new GraphQLObjectType({
-  name:'root',
-  fields
-})
+const queryFields={};
+Object.assign(queryFields,order,userinfo,discount,address);
+const querySchema=new GraphQLObjectType({
+  name:'query',
+  fields:queryFields
+});
+
+const mutationFields={};
+Object.assign(mutationFields,orderMutation,addressMutation);
+// console.log(mutationFields);
+
+const mutationSchema=new GraphQLObjectType({
+  name:'mutation',
+  fields:mutationFields
+});
 
 //生成graphQL服务 将根schema挂载上去
 const serve = new ApolloServer({
@@ -18,7 +30,8 @@ const serve = new ApolloServer({
   
   // 用这个覆盖上边的两个属性
   schema:new GraphQLSchema({
-    query:rootSchema
+    query:querySchema,
+    mutation:mutationSchema
   })
 });
 

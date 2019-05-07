@@ -243,6 +243,11 @@
   dependencies:
     "@types/koa" "*"
 
+"@types/lodash@^4.14.123":
+  version "4.14.123"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.123.tgz#39be5d211478c8dd3bdae98ee75bb7efe4abfe4d"
+  integrity sha1-Ob5dIRR4yN072umO51u37+Sr/k0=
+
 "@types/long@^4.0.0":
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/@types/long/download/@types/long-4.0.0.tgz#719551d2352d301ac8b81db732acb6bdc28dbdef"
@@ -1891,6 +1896,11 @@ dateformat@~1.0.4-1.2.3:
     get-stdin "^4.0.1"
     meow "^3.3.0"
 
+dayjs@^1.8.13:
+  version "1.8.13"
+  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.8.13.tgz#51b5cdad23ba508bcea939a853b492fefb7fdc47"
+  integrity sha1-UbXNrSO6UIvOqTmoU7SS/vt/3Ec=
+
 debounce@^1.0.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/debounce/download/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
@@ -3320,9 +3330,9 @@ lodash@4.17.4:
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
   integrity sha1-eCA6TRwyiuHYbcpkYONptX9AVa4=
 
-lodash@^4.17.10, lodash@^4.17.4:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4:
   version "4.17.11"
-  resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.11.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha1-s56mIp72B+zYniyN8SU2iRysm40=
 
 long@^4.0.0:

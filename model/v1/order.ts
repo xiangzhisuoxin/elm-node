@@ -83,10 +83,7 @@ const orderSchema=new Schema({
 orderSchema.index({id:1});
 
 const orderModel = model('Order',orderSchema);
-//  let a = orderModel.find({id:1},(err,data) => {
 
-//    console.log(data);
-//  });
 
 
 export default orderModel;

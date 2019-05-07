@@ -48,7 +48,6 @@ citySchema.statics.cityGuess = async function (name) {
     }
 
     if (info) {
-        console.log(info);
         return info;
     } else {
         console.log('没有找到该城市');

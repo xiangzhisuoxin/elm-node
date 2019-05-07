@@ -5,7 +5,7 @@ import * as bodyparser from 'koa-bodyparser';
 import * as logger from "koa-logger";
 import * as configLite from 'config-lite';
 import * as session from 'koa-session';
-import router from './routes/index'
+import router from './routes/index';
 import {initGraphQL} from './graphqlSchema'
 require("./mongodb/db");
 
