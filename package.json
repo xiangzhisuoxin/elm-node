@@ -6,6 +6,7 @@
     "ts": "cross-env NODE_ENV=development ts-node-dev --inspect-brk --respawn --transpileOnly bin/www.ts",
     "dev": "cross-env NODE_ENV=development tsnd --respawn --transpileOnly bin/www.ts",
     "prd": "pm2 start bin/www",
+    "vs":"cross-env NODE_ENV=development ts-node-dev --inspect-brk=9229 --respawn --transpileOnly bin/www.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

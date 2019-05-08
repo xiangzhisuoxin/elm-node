@@ -12,6 +12,19 @@
             "program": "${workspaceFolder}\\bin\\www"
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch via NPM",
+            "runtimeExecutable": "npm",
+            "cwd": "E:\\my\\my-project\\elm-node",
+            "runtimeArgs": [
+                "run-script",
+                "vs"
+            ],
+            "port": 9229,
+            // "stopOnEntry": true
+        },
+        {
             "name": "Attach To npm",
             "type": "node",
             "request": "attach",
