@@ -16,10 +16,10 @@
             "request": "launch",
             "name": "Launch via NPM",
             "runtimeExecutable": "npm",
-            "cwd": "E:\\my\\my-project\\elm-node",
+            "cwd": "${workspaceFolder}",
             "runtimeArgs": [
                 "run-script",
-                "vs"
+                "debug"
             ],
             "port": 9229,
             // "stopOnEntry": true

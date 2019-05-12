@@ -15,8 +15,9 @@ class User extends addressComponent {
     async login(ctx) {
         //根据参数的type值调用不同的接口
         try {
-            let params = ctx.request.body,
-                cap = ctx.cookies.get('cap');
+            let params = ctx.request.body;
+            let cap = ctx.cookies.get('cap');
+            // let cap = params.captchaCode;
 
             //验证验证码
             if (!cap) {
@@ -92,15 +93,15 @@ class User extends addressComponent {
 
             const newUserInfo = {
                 username,
-                user_id,
-                id: user_id,
+                user_id:-1,
+                id: -1,
                 city: cityInfo.city,
                 registe_time
             };
             const newUser = {
                 username,
                 password: newPwd,
-                user_id
+                user_id:-1
             };
 
             await Promise.all([

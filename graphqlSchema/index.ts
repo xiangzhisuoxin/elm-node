@@ -16,7 +16,6 @@ const querySchema=new GraphQLObjectType({
 
 const mutationFields={};
 Object.assign(mutationFields,orderMutation,addressMutation);
-// console.log(mutationFields);
 
 const mutationSchema=new GraphQLObjectType({
   name:'mutation',

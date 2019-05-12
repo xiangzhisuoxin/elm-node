@@ -114,13 +114,14 @@ const order = {
     type: GraphQLList(orderDef),
     args: {
       userId:{type:GraphQLInt},
+      pageSize:{type:GraphQLInt},
     },
-    async resolve(parent, args) {
+    async resolve(parent, {userId,pageSize=0}) {
       const res = await dbTool.find('orders', {
         // '_id': dbTool.getObjectId(args.id)
-        'user_id':args.userId
-      });
-      return res;
+        'user_id':userId
+      },{},{pageSize:pageSize});
+      return res.reverse();
     }
   }
 }

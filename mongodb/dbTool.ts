@@ -158,7 +158,7 @@ class db{
     return new Promise((resolve, reject) => {
       this.connect().then((db:Db) => {
 
-        db.collection(collectionName).removeOne(json, function (err, result) {
+        db.collection(collectionName).remove(json, function (err, result) {
           if (err) {
             reject(err);
           } else { 

@@ -1,5 +1,4 @@
-import { GraphQLList, GraphQLString } from 'graphql';
-import { GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
 import { GraphQLID } from 'graphql';
 import { GraphQLObjectType } from 'graphql';
 import dbTool from '../../mongodb/dbTool';

@@ -8,5 +8,5 @@ module.exports = {
         signed: true, /** 默认 签名 */
         rolling: true, /** 在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false） 【需要修改】 */
         renew: true, /** (boolean) renew session when session is nearly expired      【需要修改】*/
-    }
+    },
 }

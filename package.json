@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "ts": "cross-env NODE_ENV=development ts-node-dev --inspect-brk --respawn --transpileOnly bin/www.ts",
+    "build":"tsc",
+    "serve":"cross-env NODE_ENV=production node dist/bin/www.js",
+    "debug": "cross-env NODE_ENV=development ts-node-dev --inspect-brk --respawn --transpileOnly bin/www.ts",
     "dev": "cross-env NODE_ENV=development tsnd --respawn --transpileOnly bin/www.ts",
-    "prd": "pm2 start bin/www",
-    "vs":"cross-env NODE_ENV=development ts-node-dev --inspect-brk=9229 --respawn --transpileOnly bin/www.ts",
+    "prd": "cross-env NODE_ENV=production tsnd --respawn --transpileOnly bin/www.ts",
+    "vs-debug":"cross-env NODE_ENV=production ts-node-dev --inspect-brk=9229 --respawn --transpileOnly bin/www.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
