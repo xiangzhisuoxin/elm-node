@@ -7,18 +7,13 @@ interface IGuseePosition {
 }
 export default class addressComponent extends baseComponent {
   tencentkey: string;
-  tencentkey2: string;
-  tencentkey3: string;
   baidukey: string;
-  baidukey2: string;
 
   constructor() {
     super();
-    this.tencentkey2 = 'RLHBZ-WMPRP-Q3JDS-V2IQA-JNRFH-EJBHL';
-    this.tencentkey = 'RRXBZ-WC6KF-ZQSJT-N2QU7-T5QIT-6KF5X';
-    this.tencentkey3 = 'OHTBZ-7IFRG-JG2QF-IHFUK-XTTK6-VXFBN';
-    this.baidukey = 'fjke3YUipM9N64GdOIh1DNeK2APO2WcT';
-    this.baidukey2 = 'fjke3YUipM9N64GdOIh1DNeK2APO2WcT';
+
+    this.tencentkey = 'tencentkey';
+    this.baidukey = 'baidukey';
   }
 
   //获取定位地址
@@ -43,23 +38,7 @@ export default class addressComponent extends baseComponent {
             ip,
             key: this.tencentkey,
           },
-        })
-        if (result.data.status != 0) {
-          result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
-            params: {
-              ip,
-              key: this.tencentkey,
-            },
-          })
-        }
-        if (result.data.status != 0) {
-          result = await axios.get('http://apis.map.qq.com/ws/location/v1/ip', {
-            params: {
-              ip,
-              key: this.tencentkey,
-            },
-          })
-        }
+        });
         if (result.data.status == 0) {
           const cityInfo = {
             lat: result.data.result.location.lat,

@@ -31,7 +31,10 @@ const serve = new ApolloServer({
   schema:new GraphQLSchema({
     query:querySchema,
     mutation:mutationSchema
-  })
+  }),
+  //生产环境下可用graphql
+  introspection: true,
+  playground: true,
 });
 
 //将graphQL服务挂在koa上
