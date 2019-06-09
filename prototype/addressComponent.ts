@@ -12,8 +12,8 @@ export default class addressComponent extends baseComponent {
   constructor() {
     super();
 
-    this.tencentkey = 'tencentkey';
-    this.baidukey = 'baidukey';
+    this.tencentkey = '2RDBZ-ICJ63-RCR3R-3IMPU-XNJLH-SFFLE';
+    this.baidukey = 'zo7QpuSdbESOfweNVB1YnTLPWCEXpHKd';
   }
 
   //获取定位地址
