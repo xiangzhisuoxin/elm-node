@@ -1,6 +1,6 @@
 # 前言
 
-    该项目是[仿饿了么pc端项目](https://github.com/xiangzhisuoxin/elm-pc)对应的后台项目，提供了用户登录注册，商家信息，下单，用户信息等多个接口，实现了完整的流程。
+该项目是[仿饿了么pc端项目](https://github.com/xiangzhisuoxin/elm-pc)对应的后台项目，提供了用户登录注册，商家信息，下单，用户信息等多个接口，实现了完整的流程。
 
 ## 技术栈
 
