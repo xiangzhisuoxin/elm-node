@@ -32,7 +32,7 @@
     "koa-views": "^5.2.1",
     "lodash": "^4.17.11",
     "mongodb": "^3.2.3",
-    "mongoose": "^5.3.8",
+    "mongoose": "^5.7.5",
     "pinyin": "^2.8.3",
     "pug": "^2.0.0-rc.1",
     "time-formater": "^1.0.3"
